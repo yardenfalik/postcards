@@ -1,0 +1,108 @@
+.create-postcard-menu, .create-postcard-menu-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.imageUploaderContainer {
+    border-radius: 10px;
+    border-style: dashed;
+    
+    width: 95%;
+    height: 92.75%;
+
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-color: #5b5b5b;
+    color: #5b5b5b;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.imagePreview {
+    width: 95%;
+    aspect-ratio: 3/2;
+
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagePreview img {
+    width: 95%;
+    height: 92.75%;
+    object-fit: cover;
+}
+
+.divider {
+    width: 95%;
+    height: 1px;
+    background-color: #ffffff;
+    margin: 5px 0;
+}
+
+.postcard-back-inputs {
+    width: 95%;
+    aspect-ratio: 3/2;
+
+    background-color: #ffffff;
+
+    color: #000000;    
+}
+
+.postcard-back-inputs .date {
+    color: #5b5b5b;
+}
+
+.postcard-back-inputs .location {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.location p {
+    margin: 0;
+}
+
+.postcard-details-edit {
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+
+    bottom: 5%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+a {
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    color: #a2a198;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+}

@@ -1,0 +1,43 @@
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin: auto;
+    width: 95%;
+}
+
+.calendar .day {
+    width: 80%;
+    border: 1px solid #a2a198;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    margin: 2px;
+    border-radius: 5px;
+
+    aspect-ratio: 3/2;
+}
+
+.day p {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+}
+
+.calendar-postcard {
+    z-index: 10;
+    position: absolute;
+    scale: 12%;
+    transform: rotate(10deg);
+    transition: scale 1s ease, transform 1s ease;
+}
+
+.active-postcard-calendar {
+    position: absolute;
+    z-index: 1;
+    transition: scale 1s ease;
+}
+
+.controls {
+    
+    z-index: 1;
+}

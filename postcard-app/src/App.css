@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap');
+
+#root {
+  width: 100vw;
+  height: 100vh;
+
+  background-color: #d5d3ca;
+  font-family: "Baskervville", serif;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h1
+{
+  font-size: 2.5em;
+  text-align: center;
+  margin: 0;
+}
+
+.navbar {
+  width: auto;
+  height: 50px;
+  gap: 10px;
+  position: relative;
+  left: -35%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar a {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.active {
+  color: #1d1d1d;
+}
