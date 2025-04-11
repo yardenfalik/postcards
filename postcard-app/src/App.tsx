@@ -4,7 +4,7 @@ import { CreatePostcardBtn } from './components/createPostcardBtn';
 import { CreatePostcardMenu } from './components/createPostcardMenu';
 import { PostcardProps } from './components/Postcard';
 import { PostcardsCalendar } from './components/PostcardsCalendar';
-import { ViewAllPostcards } from './components/viewallPostcards';
+import { ViewAllPostcards } from './components/viewAllPostcards';
 
 function savePostcardsToLocalStorage(postcards: PostcardProps[]) {
   localStorage.setItem('postcards', JSON.stringify(postcards));
