@@ -1,6 +1,5 @@
 import './App.css'
 import { useState } from 'react';
-import { CreatePostcardBtn } from './components/createPostcardBtn';
 import { CreatePostcardMenu } from './components/createPostcardMenu';
 import { PostcardProps } from './components/Postcard';
 import { PostcardsCalendar } from './components/PostcardsCalendar';
@@ -50,10 +49,17 @@ function App() {
 
   const renderView = () => {
     if (viewMode === 'all') {
-      return <ViewAllPostcards postcards={postcards} />;
-    } else if (viewMode === 'calendar') {
-      return <PostcardsCalendar postcards={postcards} />;
+      return <ViewAllPostcards postcards={postcards} specialCss={viewMode === "all" ? "slide-in displayGrid" : "slide-out-left displayNone"} />;
     }
+    if (viewMode === 'calendar') {
+      return <PostcardsCalendar postcards={postcards} specialCss={viewMode === "calendar" ? "slide-in displayGrid" : "slide-out-right displayNone"} />;
+    }
+    /*return (
+      <>
+        <ViewAllPostcards postcards={postcards} specialCss={viewMode === "all" ? "slide-in displayGrid" : "slide-out-left displayNone"} />
+        <PostcardsCalendar postcards={postcards} specialCss={viewMode === "calendar" ? "slide-in displayGrid" : "slide-out-right displayNone"} />
+      </>
+    );*/
   };
 
   return (
@@ -65,7 +71,7 @@ function App() {
           <a onClick={() => handleViewModeChange("calendar")} className={viewMode === "calendar" ? "active" : ""}>Calendar</a>
         </div>
         {renderView()}
-        <CreatePostcardBtn onClick={handleCreateBtnClick} /> 
+        <a onClick={handleCreateBtnClick} className='addPostcardBtn'>Add</a>
       </> : <CreatePostcardMenu onAdd={addPostcard} onClose={closeMenu} />}
     </>
   )

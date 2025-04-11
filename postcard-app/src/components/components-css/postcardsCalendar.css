@@ -1,8 +1,7 @@
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    margin: auto;
-    width: 95%;
+    width: 100%;
 }
 
 .calendar .day {
@@ -28,16 +27,32 @@
     position: absolute;
     scale: 12%;
     transform: rotate(10deg);
-    transition: scale 1s ease, transform 1s ease;
+    transition: scale 1s ease, transform 1s ease, z-index 1s ease;
 }
 
-.active-postcard-calendar {
+.expanded-postcard {
+    z-index: 10;
+    transition: all 1s ease;
+}
+
+.expanded-postcard .postcard-container {
+    width: 100%;
+}
+
+.postcard-calendar-controls {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1;
+}
+
+.overlay {
     position: absolute;
-    z-index: 1;
-    transition: scale 1s ease;
-}
-
-.controls {
-    
-    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #d5d3ca;
+    transition: opacity 1s ease;
 }
