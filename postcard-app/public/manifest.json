@@ -1,19 +1,20 @@
 {
     "name": "Postcards",
     "short_name": "Postcards",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#d5d3ca",
+    "description": "Postcards App",
     "theme_color": "#d5d3ca",
+    "background_color": "#d5d3ca",
+    "display": "standalone",
+    "start_url": "/",
     "icons": [
         {
-            "src": "./postcardsAppIcon.ico",
-            "sizes": "256x256",
-            "type": "image/x-icon"
+            "src": "pwa-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
         },
         {
-            "src": "./postcardsAppIcon.png",
-            "sizes": "256x256",
+            "src": "pwa-512x512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ]
