@@ -7,11 +7,11 @@
   background-color: #d5d3ca;
   font-family: "Baskervville", serif;
   margin: 0;
-
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  overflow: hidden;
 }
 
 h1
@@ -26,7 +26,7 @@ h1
   height: 50px;
   gap: 10px;
   position: relative;
-  left: -35%;
+  left: -25%;
   display: flex;
   align-items: center;
 }
@@ -36,6 +36,12 @@ h1
   transition: color 0.3s ease;
 }
 
-.active {
+.addPostcardBtn {
+  position: absolute;
+  left: 10%;
+  bottom: 5%;
+}
+
+.active, .addPostcardBtn {
   color: #1d1d1d;
 }

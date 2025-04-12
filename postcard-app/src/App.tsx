@@ -1,37 +1,26 @@
 import './App.css'
-import { useState } from 'react';
-import { CreatePostcardBtn } from './components/createPostcardBtn';
+import { useState, useEffect } from 'react';
 import { CreatePostcardMenu } from './components/createPostcardMenu';
 import { PostcardProps } from './components/Postcard';
 import { PostcardsCalendar } from './components/PostcardsCalendar';
 import { ViewAllPostcards } from './components/viewAllPostcards';
-
-function savePostcardsToLocalStorage(postcards: PostcardProps[]) {
-  localStorage.setItem('postcards', JSON.stringify(postcards));
-}
-
-function loadPostcardsFromLocalStorage(): PostcardProps[] {
-  const postcards = localStorage.getItem('postcards');
-  return postcards ? JSON.parse(postcards) : [];
-}
+import { getItem, setItem } from './util/localStorage';
 
 function App() {
-  const [postcards, setPostcards] = useState<PostcardProps[]>([]);
+  const [postcards, setPostcards] = useState<PostcardProps[]>(()  => {
+    const savedPostcards = getItem('postcards');
+    return savedPostcards ? savedPostcards : [];
+  })
 
-  const [loaded, setLoaded] = useState(false);
-  if (!loaded) {
-    const loadedPostcards = loadPostcardsFromLocalStorage();
-    setPostcards(loadedPostcards);
-    setLoaded(true);
-    console.log(loadedPostcards);
-  }
+  useEffect(() => {
+    setItem('postcards', postcards);
+  }, [postcards]);
 
   const addPostcard = (newPostcard: PostcardProps) => {
     const index = postcards.length + 1;
     newPostcard.postcardIndex = index;
     setPostcards([...postcards, newPostcard]);
     setShowPostcardMenu(false);
-    savePostcardsToLocalStorage([...postcards, newPostcard]);
   };
 
   const closeMenu = () => {
@@ -50,10 +39,17 @@ function App() {
 
   const renderView = () => {
     if (viewMode === 'all') {
-      return <ViewAllPostcards postcards={postcards} />;
-    } else if (viewMode === 'calendar') {
-      return <PostcardsCalendar postcards={postcards} />;
+      return <ViewAllPostcards postcards={postcards} specialCss={viewMode === "all" ? "slide-in displayGrid" : "slide-out-left displayNone"} />;
     }
+    if (viewMode === 'calendar') {
+      return <PostcardsCalendar postcards={postcards} specialCss={viewMode === "calendar" ? "slide-in displayGrid" : "slide-out-right displayNone"} />;
+    }
+    /*return (
+      <>
+        <ViewAllPostcards postcards={postcards} specialCss={viewMode === "all" ? "slide-in displayGrid" : "slide-out-left displayNone"} />
+        <PostcardsCalendar postcards={postcards} specialCss={viewMode === "calendar" ? "slide-in displayGrid" : "slide-out-right displayNone"} />
+      </>
+    );*/
   };
 
   return (
@@ -65,7 +61,7 @@ function App() {
           <a onClick={() => handleViewModeChange("calendar")} className={viewMode === "calendar" ? "active" : ""}>Calendar</a>
         </div>
         {renderView()}
-        <CreatePostcardBtn onClick={handleCreateBtnClick} /> 
+        <a onClick={handleCreateBtnClick} className='addPostcardBtn'>Add</a>
       </> : <CreatePostcardMenu onAdd={addPostcard} onClose={closeMenu} />}
     </>
   )

@@ -1,12 +1,14 @@
 import "./components-css/postcardsCalendar.css";
 import { useState } from "react";
 import { Postcard, PostcardProps } from "./Postcard";
+import { ExpandedPostcard } from "./ExpandedPostcard";
 
 type PostcardsCalendarProps = {
     postcards: PostcardProps[];
+    specialCss?: string;
 };
 
-export function PostcardsCalendar({ postcards }: PostcardsCalendarProps) {
+export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarProps) {
     const currentDate = new Date();
 
     function daysInMonth(month: number, year: number) {
@@ -20,31 +22,43 @@ export function PostcardsCalendar({ postcards }: PostcardsCalendarProps) {
                date1.getMonth() === date2.getMonth() &&
                date1.getFullYear() === date2.getFullYear();
     };
-    const [selectedPostcardIndex, setSelectedPostcardIndex] = useState<number | null>(null);
-    const selectPostcard = (index: number) => {
-        setSelectedPostcardIndex(index);
+    
+    const [expandedPostcard, setExpandedPostcard] = useState<PostcardProps | null>(null);
+    const [originRect, setOriginRect] = useState<DOMRect | null>(null);
+    const [animate, setAnimate] = useState(false);
+    const selectPostcard = (postcard: PostcardProps, rect: DOMRect) => {
+        setExpandedPostcard(postcard);
+        setOriginRect(rect);
+        setAnimate(false);
+
+        setTimeout(() => {
+            setAnimate(true);
+        }, 50);
+    };
+
+    const closeExpanded = () => {
+        setAnimate(false);
+      
+        setTimeout(() => {
+          setExpandedPostcard(null);
+          setOriginRect(null);
+        }, 1000);
     };
 
     return (
         <>
-            
-            <div className="calendar">
+            <div className={"calendar " + specialCss}>
                 {Array.from({ length: numberOfDays }, (_, index) => {
                     const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), index + 1);
                     const postcardForDate = postcards.find(postcard => isSameDay(new Date(postcard.date), date));
                     return (
                         <div key={index} className="day">
-                            {postcardForDate ?  <Postcard key={index} {...postcardForDate} onSelect={selectPostcard} specialCss={selectedPostcardIndex === postcardForDate.postcardIndex ? "active-postcard-calendar" : "calendar-postcard"} /> : <p key={index}><strong>{index + 1}</strong></p>}
+                                {postcardForDate && !expandedPostcard ?  <Postcard key={index} {...postcardForDate} onSelect={selectPostcard} specialCss={"calendar-postcard"} isFlippable={false} /> : <p key={index}><strong>{index + 1}</strong></p>}
                         </div>
                     );
                 })}
             </div>
-            {selectedPostcardIndex ? 
-                <div className="controls">
-                    <a onClick={() => setSelectedPostcardIndex(null)}>Close</a>
-                    <a onClick={() => setSelectedPostcardIndex(null)}>Edit</a>
-                </div>    
-                : null}
+            {expandedPostcard && originRect ? <ExpandedPostcard postcard={expandedPostcard} originRect={originRect} animate={animate} onClose={closeExpanded} /> : null}
         </>
     );
 }

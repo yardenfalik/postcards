@@ -1,5 +1,5 @@
 import "./components-css/postcard.css";
-import { useState } from "react";
+import {  useRef, useState } from "react";
 
 export type PostcardProps = {
     imageUrl: string; 
@@ -11,22 +11,27 @@ export type PostcardProps = {
 };
 
 export type PostcardComponentProps = {
-    onSelect: (key: number) => void;
+    onSelect: (postcard: PostcardProps, rect: DOMRect) => void;
     specialCss?: string;
+    isFlippable?: boolean;
 };
 
 export type FullPostcardProps = PostcardProps & PostcardComponentProps;
 
-export function Postcard({ imageUrl, title, description, date, location, postcardIndex, onSelect, specialCss }: FullPostcardProps) {
+export function Postcard({ imageUrl, title, description, date, location, postcardIndex, onSelect, specialCss, isFlippable }: FullPostcardProps) {
+    const postcardRef = useRef<HTMLDivElement>(null);
     const [flipped, setFlipped] = useState(false);
 
     const handleClick = () => {
-    setFlipped(!flipped);
-    onSelect(postcardIndex? postcardIndex : 0);
+        isFlippable ? setFlipped(!flipped) : setFlipped(false);
+        if(postcardRef.current) {
+            const rect = postcardRef.current.getBoundingClientRect();
+            onSelect({ imageUrl, title, description, date, location, postcardIndex }, rect);
+        }
     };
 
   return (
-    <div className={"postcard-container " + specialCss} onClick={handleClick}>
+    <div ref={postcardRef} className={"postcard-container " + specialCss} onClick={handleClick}>
         <div className={`postcard ${flipped ? "flipped" : ""}`}>
             <div className="postcard-front" id="postcard-front">
                 <img src={imageUrl} alt="" />
