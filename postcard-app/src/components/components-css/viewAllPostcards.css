@@ -1,16 +1,15 @@
 .postcards-display {
-    height: auto;
     width: 90%;
+    height: auto;
     display: grid;
     gap: 50px;
-    
-    grid-template: "1fr 1fr";
     transition: all 1s ease-in-out;
+    grid-template: "1fr 1fr";
+    position: relative;
 }
 
-.postcards-display-collapsed {
-    height: fit-content;
-    width: 95%;
+.postcards-display.collapsed {
+    height: inherit;
     position: relative;
     transition: all 1s ease-in-out;
 }
@@ -24,11 +23,12 @@
     transition: all 1s ease-in-out;
 }
 
-.postcard-view-all-collapsed {
+.postcard-view-all.collapsed {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    transform: translate(0, 0);
+    pointer-events: none;
     transition: all 1s ease-in-out;
 }
 
