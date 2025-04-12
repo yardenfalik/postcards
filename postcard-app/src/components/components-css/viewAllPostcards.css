@@ -8,12 +8,6 @@
     position: relative;
 }
 
-.postcards-display.collapsed {
-    height: inherit;
-    position: relative;
-    transition: all 1s ease-in-out;
-}
-
 .postcard-view-all {
     display: flex;
     flex-direction: column;
@@ -23,18 +17,10 @@
     transition: all 1s ease-in-out;
 }
 
-.postcard-view-all.collapsed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(0, 0);
-    pointer-events: none;
-    transition: all 1s ease-in-out;
-}
-
 .no-postcards {
     text-align: center;
     font-family: 'inter', sans-serif;
     color: #a2a198;
     font-weight: bold;
+    margin: 0;
 }

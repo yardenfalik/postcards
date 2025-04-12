@@ -23,6 +23,7 @@ export function ExpandedPostcard({ postcard, originRect, animate, onClose }: Exp
         }}
       >
         <Postcard {...postcard} onSelect={() => {}} isFlippable={true} />
+        <br />
         <div
           className="postcard-calendar-controls"
           style={{

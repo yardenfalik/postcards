@@ -40,23 +40,18 @@ export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProp
       }, 1000);
     };
 
-    const [isColapsed, setIsCollapsed] = useState(true);
-    const handleExpend = () => {
-      setIsCollapsed(false);
-    };
-
   return (
     <>
-      <div className={`postcards-display ${isColapsed ?  "collapsed" : "expanded" } ${specialCss}`} onClick={handleExpend}>
+      <div className={`postcards-display ${specialCss}`}>
           {postcards.length != 0 ? postcards.map((postcard, index) => (
-            <div key={index} className={`postcard-view-all ${isColapsed ?  "collapsed" : "expanded" }`} style={{
+            <div key={index} className="postcard-view-all" style={{
               transform: `rotate(${rotations[index]}deg)`,
             }}>
               <Postcard key={index} {...postcard} onSelect={selectPostcard} isFlippable={false} />
             </div>
           )) : <p className="no-postcards">No postcards yet</p>}
       </div>
-      {expandedPostcard && originRect && !isColapsed ? <ExpandedPostcard postcard={expandedPostcard} originRect={originRect} animate={animate} onClose={closeExpanded} /> : null}
+      {expandedPostcard && originRect ? <ExpandedPostcard postcard={expandedPostcard} originRect={originRect} animate={animate} onClose={closeExpanded} /> : null}
     </>
   );
 }
