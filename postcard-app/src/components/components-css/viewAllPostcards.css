@@ -1,10 +1,18 @@
 .postcards-display {
     height: auto;
-    width: 100%;
+    width: 90%;
     display: grid;
-    gap: 10px;
-    padding: 10px;
+    gap: 50px;
+    
     grid-template: "1fr 1fr";
+    transition: all 1s ease-in-out;
+}
+
+.postcards-display-collapsed {
+    height: fit-content;
+    width: 95%;
+    position: relative;
+    transition: all 1s ease-in-out;
 }
 
 .postcard-view-all {
@@ -13,4 +21,20 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    transition: all 1s ease-in-out;
+}
+
+.postcard-view-all-collapsed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: all 1s ease-in-out;
+}
+
+.no-postcards {
+    text-align: center;
+    font-family: 'inter', sans-serif;
+    color: #a2a198;
+    font-weight: bold;
 }

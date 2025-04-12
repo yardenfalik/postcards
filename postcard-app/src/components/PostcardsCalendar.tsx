@@ -1,6 +1,7 @@
 import "./components-css/postcardsCalendar.css";
 import { useState } from "react";
 import { Postcard, PostcardProps } from "./Postcard";
+import { ExpandedPostcard } from "./ExpandedPostcard";
 
 type PostcardsCalendarProps = {
     postcards: PostcardProps[];
@@ -42,7 +43,7 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
           setExpandedPostcard(null);
           setOriginRect(null);
         }, 1000);
-      };
+    };
 
     return (
         <>
@@ -57,30 +58,7 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
                     );
                 })}
             </div>
-            {expandedPostcard && originRect && (
-                <>
-                    <div className="overlay" style={{opacity: animate ? "1" : "0"}} onClick={closeExpanded} />
-                    <div
-                        className="expanded-postcard"
-                        style={{
-                            position: "fixed",
-                            top: animate ? "50%" : originRect.top,
-                            left: animate ? "50%" : originRect.left,
-                            width: animate ? "95%" : originRect.width,
-                            transform: animate ? "translate(-50%, -50%) rotate(0deg)" : "rotate(10deg)",
-                        }}>
-                        <Postcard {...expandedPostcard} onSelect={() => {}} isFlippable={true}/>
-                        <div 
-                        className="postcard-calendar-controls" 
-                        style={{
-                                visibility: animate ? "visible" : "hidden",
-                            }}>
-                            <a onClick={closeExpanded}>Close</a>
-                            <a onClick={closeExpanded}>Edit</a>
-                        </div>  
-                    </div>
-                </>
-            )}
+            {expandedPostcard && originRect ? <ExpandedPostcard postcard={expandedPostcard} originRect={originRect} animate={animate} onClose={closeExpanded} /> : null}
         </>
     );
 }

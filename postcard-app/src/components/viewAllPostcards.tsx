@@ -1,6 +1,7 @@
 import "./components-css/viewAllPostcards.css";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Postcard, PostcardProps } from "./Postcard";
+import { ExpandedPostcard } from "./ExpandedPostcard";
 
 type ViewAllPostcardsProps = {
     postcards: PostcardProps[];
@@ -12,10 +13,14 @@ function getRandomDegree() {
 }
 
 export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProps) {
+  const rotations = useMemo(() => {
+    return postcards.map(() => getRandomDegree());
+  }, [postcards]);
 
   const [expandedPostcard, setExpandedPostcard] = useState<PostcardProps | null>(null);
   const [originRect, setOriginRect] = useState<DOMRect | null>(null);
   const [animate, setAnimate] = useState(false);
+
   const selectPostcard = (postcard: PostcardProps, rect: DOMRect) => {
       setExpandedPostcard(postcard);
       setOriginRect(rect);
@@ -35,44 +40,24 @@ export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProp
       }, 1000);
     };
 
+    const [isColapsed, setIsCollapsed] = useState(true);
+    const handleExpend = () => {
+      setIsCollapsed(false);
+    };
+
   return (
     <>
-      <div className={"postcards-display " + specialCss}>
-          {postcards.map((postcard, index) => (
-            <div style={{
-              transform: `rotate(${getRandomDegree()}deg)`,
+      <div className={isColapsed ?  "postcards-display-collapsed " + specialCss : "postcards-display " + specialCss} onClick={handleExpend}>
+          {postcards.length != 0 ? postcards.map((postcard, index) => (
+            <div className={isColapsed ? "postcard-view-all-collapsed" : "postcard-view-all"} style={{
+              transform: `rotate(${rotations[index]}deg)`,
               transition: "transform 0.3s ease",
-              height: "100%",
-              width: "100%",
             }}>
               <Postcard key={index} {...postcard} onSelect={selectPostcard} isFlippable={false} />
             </div>
-          ))}
+          )) : <p className="no-postcards">No postcards yet</p>}
       </div>
-      {expandedPostcard && originRect && (
-                <>
-                    <div className="overlay" style={{opacity: animate ? "1" : "0"}} onClick={closeExpanded} />
-                    <div
-                        className="expanded-postcard"
-                        style={{
-                            position: "fixed",
-                            top: animate ? "50%" : originRect.top,
-                            left: animate ? "50%" : originRect.left,
-                            width: animate ? "95%" : originRect.width,
-                            transform: animate ? "translate(-50%, -50%) rotate(0deg)" : "rotate(10deg)",
-                        }}>
-                        <Postcard {...expandedPostcard} onSelect={() => {}} isFlippable={true}/>
-                        <div 
-                        className="postcard-calendar-controls" 
-                        style={{
-                                visibility: animate ? "visible" : "hidden",
-                            }}>
-                            <a onClick={closeExpanded}>Close</a>
-                            <a onClick={closeExpanded}>Edit</a>
-                        </div>  
-                    </div>
-                </>
-            )}
+      {expandedPostcard && originRect && !isColapsed ? <ExpandedPostcard postcard={expandedPostcard} originRect={originRect} animate={animate} onClose={closeExpanded} /> : null}
     </>
   );
 }
