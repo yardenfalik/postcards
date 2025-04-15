@@ -47,7 +47,7 @@ export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProp
             <div key={index} className="postcard-view-all" style={{
               transform: `rotate(${rotations[index]}deg)`,
             }}>
-              <Postcard key={index} {...postcard} onSelect={selectPostcard} isFlippable={false} />
+              {!animate ? <Postcard key={index} {...postcard} onSelect={selectPostcard} isFlippable={false} /> : null}
             </div>
           )) : <p className="no-postcards">No postcards yet</p>}
       </div>
