@@ -1,5 +1,5 @@
 import "./components-css/postcardsCalendar.css";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Postcard, PostcardProps } from "./Postcard";
 import { ExpandedPostcard } from "./ExpandedPostcard";
 
@@ -17,17 +17,33 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
 
     const numberOfDays = daysInMonth(currentDate.getMonth() + 1, currentDate.getFullYear());
 
-    const isSameDay = (date1: Date, date2: Date) => {
-        return date1.getDate() === date2.getDate() &&
-               date1.getMonth() === date2.getMonth() &&
-               date1.getFullYear() === date2.getFullYear();
-    };
-    
     const [expandedPostcard, setExpandedPostcard] = useState<PostcardProps | null>(null);
     const [originRect, setOriginRect] = useState<DOMRect | null>(null);
     const [animate, setAnimate] = useState(false);
-    const selectPostcard = (postcard: PostcardProps, rect: DOMRect) => {
-        setExpandedPostcard(postcard);
+
+    const postcardsAndDates = useMemo(() => {
+        return postcards.reduce((acc: { [date: string]: PostcardProps[] }, postcard) => {
+            const date = new Date(postcard.date);
+            const dateString = date.toISOString().split("T")[0];
+
+            if (!acc[dateString]) {
+                acc[dateString] = [];
+            }
+            acc[dateString].push(postcard);
+            return acc;
+        }, {});
+    }, [postcards]);
+
+    const selectPostcard = (postcard: PostcardProps, rect: DOMRect, rotation: number) => {
+        const dateString = new Date(postcard.date).toISOString().split("T")[0];
+        const allPostcardsForThatDate = postcardsAndDates[dateString];
+
+        if(allPostcardsForThatDate.length === 1) {
+            setExpandedPostcard({...postcard, rotation});
+        } else {
+            setExpandedPostcard({...postcard, rotation, allPostcardsForThatDate} as any);
+        }        
+
         setOriginRect(rect);
         setAnimate(false);
 
@@ -50,11 +66,24 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
             <div className={"calendar " + specialCss}>
                 {Array.from({ length: numberOfDays }, (_, index) => {
                     const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), index + 1);
-                    const postcardForDate = postcards.find(postcard => isSameDay(new Date(postcard.date), date));
+                    const dateString = date.toISOString().split("T")[0];
                     return (
                         <div key={index} className="day">
-                                {postcardForDate && !expandedPostcard ?  <Postcard key={index} {...postcardForDate} onSelect={selectPostcard} specialCss={"calendar-postcard"} isFlippable={false} /> : <p key={index}><strong>{index + 1}</strong></p>}
+                        {postcardsAndDates[dateString] && !expandedPostcard ? (
+                            postcardsAndDates[dateString].map((postcard, i) => (
+                            <Postcard
+                                key={i}
+                                {...postcard}
+                                onSelect={selectPostcard}
+                                specialCss="calendar-postcard"
+                                isFlippable={false}
+                            />
+                            ))
+                        ) : (
+                            <p><strong>{index + 1}</strong></p>
+                        )}
                         </div>
+
                     );
                 })}
             </div>

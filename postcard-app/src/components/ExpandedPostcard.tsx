@@ -19,7 +19,7 @@ export function ExpandedPostcard({ postcard, originRect, animate, onClose }: Exp
           top: animate ? "50%" : originRect.top,
           left: animate ? "50%" : originRect.left,
           width: animate ? "95%" : originRect.width,
-          transform: animate ? "translate(-50%, -50%) rotate(0deg)" : "rotate(10deg)",
+          transform: animate ? "translate(-50%, -50%) rotate(0deg)" : `rotate(${postcard.rotation ? postcard.rotation : 0 }deg)`,
         }}
       >
         <Postcard {...postcard} onSelect={() => {}} isFlippable={true} />
