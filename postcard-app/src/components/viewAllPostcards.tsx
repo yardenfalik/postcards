@@ -14,7 +14,8 @@ function getRandomDegree() {
 
 export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProps) {
   const rotations = useMemo(() => {
-    return postcards.map(() => getRandomDegree());
+    return postcards.map(() => 10);
+    //return postcards.map(() => getRandomDegree());
   }, [postcards]);
 
   const [expandedPostcard, setExpandedPostcard] = useState<PostcardProps | null>(null);
@@ -47,7 +48,7 @@ export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProp
             <div key={index} className="postcard-view-all" style={{
               transform: `rotate(${rotations[index]}deg)`,
             }}>
-              {!animate ? <Postcard key={index} {...postcard} onSelect={selectPostcard} isFlippable={false} /> : null}
+              {!animate && !(expandedPostcard?.postcardIndex == index + 1) ? <Postcard key={index} {...postcard} onSelect={selectPostcard} isFlippable={false} /> : null}
             </div>
           )) : <p className="no-postcards">No postcards yet</p>}
       </div>
