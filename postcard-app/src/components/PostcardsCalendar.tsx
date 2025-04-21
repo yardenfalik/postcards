@@ -2,6 +2,7 @@ import "./components-css/postcardsCalendar.css";
 import { useMemo, useState } from "react";
 import { Postcard, PostcardProps } from "./Postcard";
 import { ExpandedPostcard } from "./ExpandedPostcard";
+import { PostcardCarousel } from "./PostcardCarousel";
 
 type PostcardsCalendarProps = {
     postcards: PostcardProps[];
@@ -34,18 +35,20 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
         }, {});
     }, [postcards]);
 
+    const [carouselPostcards, setCarouselPostcards] = useState<PostcardProps[] | null>(null);
+
     const selectPostcard = (postcard: PostcardProps, rect: DOMRect, rotation: number) => {
+        setOriginRect(rect);
+        setAnimate(false);
+
         const dateString = new Date(postcard.date).toISOString().split("T")[0];
         const allPostcardsForThatDate = postcardsAndDates[dateString];
 
-        if(allPostcardsForThatDate.length === 1) {
-            setExpandedPostcard({...postcard, rotation});
+        if(allPostcardsForThatDate.length > 1) {
+            setCarouselPostcards(allPostcardsForThatDate);
         } else {
-            setExpandedPostcard({...postcard, rotation, allPostcardsForThatDate} as any);
-        }        
-
-        setOriginRect(rect);
-        setAnimate(false);
+            setExpandedPostcard({...postcard, rotation});        
+        }       
 
         setTimeout(() => {
             setAnimate(true);
@@ -61,6 +64,13 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
         }, 1000);
     };
 
+    const closeCarousel = () => {
+        setAnimate(false);
+        setCarouselPostcards(null);
+        setOriginRect(null);
+
+    }
+
     return (
         <>
             <div className={"calendar " + specialCss}>
@@ -69,12 +79,12 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
                     const dateString = date.toISOString().split("T")[0];
                     return (
                         <div key={index} className="day">
-                        {postcardsAndDates[dateString] && !expandedPostcard ? (
+                        {postcardsAndDates[dateString] && !expandedPostcard && !carouselPostcards ? (
                             postcardsAndDates[dateString].map((postcard, i) => (
                             <Postcard
                                 key={i}
                                 {...postcard}
-                                onSelect={selectPostcard}
+                                onSelect={(p, r) => selectPostcard(p, r, 0)}
                                 specialCss="calendar-postcard"
                                 isFlippable={false}
                             />
@@ -88,6 +98,7 @@ export function PostcardsCalendar({ postcards, specialCss }: PostcardsCalendarPr
                 })}
             </div>
             {expandedPostcard && originRect ? <ExpandedPostcard postcard={expandedPostcard} originRect={originRect} animate={animate} onClose={closeExpanded} /> : null}
+            {carouselPostcards && originRect ? <PostcardCarousel postcards={carouselPostcards} initialIndex={0} onClose={closeCarousel} /> : null}
         </>
     );
 }
