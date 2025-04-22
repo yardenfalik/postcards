@@ -8,9 +8,9 @@ type ViewAllPostcardsProps = {
     specialCss?: string;
 };
 
-/*function getRandomDegree() {
+function getRandomDegree() {
     return Math.floor(Math.random() * 21) - 10;
-}*/
+}
 
 export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProps) {
   const rotations = useMemo(() => {
