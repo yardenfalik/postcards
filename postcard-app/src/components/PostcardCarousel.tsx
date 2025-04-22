@@ -1,4 +1,4 @@
-import "./components-css/postcardCarousel.css";
+import "./components-css/PostcardCarousel.css";
 import { useEffect, useRef, useState } from "react";
 import { PostcardProps, Postcard } from "./Postcard";
 
