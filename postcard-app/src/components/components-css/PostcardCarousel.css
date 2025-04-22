@@ -1,0 +1,67 @@
+.postcard-carousel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #d5d3ca;
+    overflow: hidden;
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.arrowLeftBtn, .arrowRightBtn {
+    position: absolute;
+    z-index: 1000;
+    font-size: 200%;
+    color: #484848;
+    height: 100%;
+    width: 50px;
+}
+
+.postcard-carousel .arrowLeftBtn {
+    left: 5px;
+}
+
+.postcard-carousel .arrowRightBtn {
+    right: 5px;
+}
+
+.carousel-track {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    transition: transform 0.5s ease;
+    transform: translateX(calc(-100% * var(--index)));
+    --index: 0;
+}
+
+.carousel-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 100%;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-sizing: border-box;
+}
+  
+.carousel-slide.peek {
+    transform: scale(0.9);
+    opacity: 0.6;
+    pointer-events: none;
+}
+  
+.carousel-slide.center {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.postcard-carousel-controls {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    z-index: 1;
+    top: 70%;
+}

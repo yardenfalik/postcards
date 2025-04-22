@@ -8,17 +8,18 @@ export type PostcardProps = {
     date: string;
     location: string;
     postcardIndex?: number;
+    rotation?: number;
 };
 
 export type PostcardComponentProps = {
-    onSelect: (postcard: PostcardProps, rect: DOMRect) => void;
+    onSelect: (postcard: PostcardProps, rect: DOMRect, rotation: number) => void;
     specialCss?: string;
     isFlippable?: boolean;
 };
 
 export type FullPostcardProps = PostcardProps & PostcardComponentProps;
 
-export function Postcard({ imageUrl, title, description, date, location, postcardIndex, onSelect, specialCss, isFlippable }: FullPostcardProps) {
+export function Postcard({ imageUrl, title, description, date, location, postcardIndex, onSelect, specialCss, isFlippable, rotation }: FullPostcardProps) {
     const postcardRef = useRef<HTMLDivElement>(null);
     const [flipped, setFlipped] = useState(false);
 
@@ -26,7 +27,7 @@ export function Postcard({ imageUrl, title, description, date, location, postcar
         isFlippable ? setFlipped(!flipped) : setFlipped(false);
         if(postcardRef.current) {
             const rect = postcardRef.current.getBoundingClientRect();
-            onSelect({ imageUrl, title, description, date, location, postcardIndex }, rect);
+            onSelect({ imageUrl, title, description, date, location, postcardIndex }, rect, rotation ?? 0);
         }
     };
 

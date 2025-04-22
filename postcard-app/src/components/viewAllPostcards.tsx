@@ -14,16 +14,15 @@ type ViewAllPostcardsProps = {
 
 export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProps) {
   const rotations = useMemo(() => {
-    return postcards.map(() => 10);
-    //return postcards.map(() => getRandomDegree());
+    return postcards.map(() => getRandomDegree());
   }, [postcards]);
 
   const [expandedPostcard, setExpandedPostcard] = useState<PostcardProps | null>(null);
   const [originRect, setOriginRect] = useState<DOMRect | null>(null);
   const [animate, setAnimate] = useState(false);
 
-  const selectPostcard = (postcard: PostcardProps, rect: DOMRect) => {
-      setExpandedPostcard(postcard);
+  const selectPostcard = (postcard: PostcardProps, rect: DOMRect, rotation: number) => {
+      setExpandedPostcard({...postcard, rotation});
       setOriginRect(rect);
       setAnimate(false);
 
@@ -46,9 +45,8 @@ export function ViewAllPostcards({ postcards, specialCss }: ViewAllPostcardsProp
       <div className={`postcards-display ${specialCss}`}>
           {postcards.length != 0 ? postcards.map((postcard, index) => (
             <div key={index} className="postcard-view-all" style={{
-              transform: `rotate(${rotations[index]}deg)`,
-            }}>
-              {!animate && !(expandedPostcard?.postcardIndex == index + 1) ? <Postcard key={index} {...postcard} onSelect={selectPostcard} isFlippable={false} /> : null}
+              transform: `rotate(${rotations[index]}deg)`}}>
+              {!animate && !(expandedPostcard?.postcardIndex == index + 1) ? <Postcard key={index} {...postcard} rotation={rotations[index]} onSelect={selectPostcard} isFlippable={false} /> : null}
             </div>
           )) : <p className="no-postcards">No postcards yet</p>}
       </div>

@@ -37,12 +37,7 @@ function EditableField({ id, maxCharacters, initialText, className }: EditableFi
 
         const handleInput = () => {
             const currentText = el?.textContent || "";
-            
-            if (currentText === "") {
-              setText(initialText);
-            } else {
-              setText(currentText);
-            }
+            setText(currentText);
         };
 
     
@@ -54,6 +49,11 @@ function EditableField({ id, maxCharacters, initialText, className }: EditableFi
           el.removeEventListener("input", handleInput);
         };
       }, [maxCharacters, initialText]);
+    
+      useEffect(() => {
+            setCharactersLeft(maxCharacters - initialText.length);
+            setText(initialText);
+        }, [initialText, maxCharacters]);
     
       return (
         <div className="editable-field">
@@ -158,14 +158,14 @@ export function CreatePostcardMenu({ onAdd, onClose }: CreatePostcardMenuProps) 
                     </div>
                     <div className="postcard-details-edit">
                         <p className="date">{getCurrentDate()}</p>
-                        <p className="location">📍
+                        <div className="location">📍
                             <EditableField
                                 id="postcardLocation"
                                 maxCharacters={15}
                                 initialText="Location"
                                 className="postcard-location"
                             />
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
