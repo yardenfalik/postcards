@@ -9,7 +9,6 @@
 ---
 
 ## ✨ Features
-
 - 🖼️ **Create postcards** with an image, title, description, date, and location.
 - 📅 **Calendar view** shows postcards on the day they were created.
 - 🗃️ **Gallery view** with a view of all of the postcards.
@@ -21,8 +20,7 @@
 - Vite
 - PWA (Progressive Web App)
 
-### 🛠️ How to install as an app:
-
+## 🛠️ Installation
 1. Open the app in Safari or Chrome on your phone ([in this link](https://postcards-app.vercel.app/)).
 2. Tap "Share" → "Add to Home Screen".
 3. That's it! Use it like any installed app.
