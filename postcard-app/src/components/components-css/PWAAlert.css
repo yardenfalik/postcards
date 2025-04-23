@@ -1,0 +1,50 @@
+.pwa-alert {
+    position: fixed;
+    bottom: 20px;
+    color: white;
+    padding: 10px;
+    z-index: 1000;
+
+    width: 90%;
+    height: 50px;
+    border-radius: 10px;
+    border: solid 2px #26231a;
+
+    background: #000000a6;
+    box-shadow: 0 4px 30px #0000001a;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.pwa-alert p {
+    margin: 0;
+    padding: 0;
+}
+
+.pwa-alert button {
+    background: #00000000;
+    color: #ffffff;
+    border: none;
+    height: 10px;
+    width: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pwa-alert img {
+    border-radius: 3px;
+    width: 20px;
+    height: 20px;
+    transform: translateY(5px);
+}

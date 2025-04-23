@@ -1,8 +1,12 @@
-# 📬 Postcards App
+<div align="center">
+  <img width="300" height="300" src="/logo.png" alt="postcards Logo">
+  <h1><b>Postcards</b></h1>
+  <p>
+    Create and view digital postcards — beautifully animated and fully mobile-friendly as a Progressive Web App (PWA)!
+  </p>
+</div>
 
-Create and view digital postcards — beautifully animated and fully mobile-friendly as a Progressive Web App (PWA)!
-
-![Postcard Icon](/postcard-app/public/pwa-192x192.png)
+---
 
 ## ✨ Features
 

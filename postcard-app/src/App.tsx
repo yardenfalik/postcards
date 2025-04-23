@@ -5,6 +5,7 @@ import { PostcardProps } from './components/Postcard';
 import { PostcardsCalendar } from './components/PostcardsCalendar';
 import { ViewAllPostcards } from './components/viewAllPostcards';
 import { getItem, setItem } from './util/localStorage';
+import { PWAAlert } from './components/PWAAlert';
 
 function App() {
   const [postcards, setPostcards] = useState<PostcardProps[]>(()  => {
@@ -52,8 +53,17 @@ function App() {
     );*/
   };
 
+  const [isPWA, setIsPWA] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsPWA(true);
+    }
+  }, []);
+
   return (
     <>
+    {isPWA ? null : <PWAAlert />}
       {!showPostcardMenu ?
       <>
         <div className='navbar'>
